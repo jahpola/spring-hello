@@ -1,0 +1,12 @@
+apiVersion: skaffold/v1beta17
+kind: Config
+metadata:
+  name: spring-hello
+build:
+  artifacts:
+  - image: kerminator/spring-hello
+    jib: {}
+deploy:
+  kubectl:
+    manifests:
+    - manifests/deployment.yaml

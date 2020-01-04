@@ -26,15 +26,19 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.RELEASE")
+	set('springCloudVersion', "Hoxton.SR1")
 }
 
 dependencies {
+	compile 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-all'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-aws'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.springframework.boot:spring-boot-starter-web'
+
 }
 
 dependencyManagement {

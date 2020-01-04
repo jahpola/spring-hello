@@ -1,0 +1,77 @@
+apiVersion: v1 
+kind: ServiceAccount
+metadata:
+  name: hello
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role 
+metadata:
+  name: hello
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  - pods
+  - configmaps
+  - secrets
+  - endpoints
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hello
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: hello
+subjects:
+- kind: ServiceAccount
+  name: hello
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+  labels:
+    app: hello
+spec:
+  selector:
+    app: hello
+  type: NodePort
+  ports:
+    - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  labels:
+    app: hello
+    tier: api-gw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      serviceAccountName: hello
+      containers:
+      - name: hello
+        image: kerminator/spring-hello
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+        ports:
+        - containerPort: 8080
