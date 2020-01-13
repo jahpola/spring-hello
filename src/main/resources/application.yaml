@@ -8,3 +8,8 @@ management:
       enabled: true
     info:
       enabled: true
+
+#logging:
+#  level:
+#    org.springframework: DEBUG  
+    
