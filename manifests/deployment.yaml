@@ -38,6 +38,7 @@ metadata:
   name: hello
   labels:
     app: hello
+    route: "true"
 spec:
   selector:
     app: hello
