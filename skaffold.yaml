@@ -13,5 +13,5 @@ deploy:
 portForward:
 - resourceType: service
   resourceName: hello
-  port: 8080 # 
-  localPort: 8080 # *Optional*
+  port: 8081 #
+  localPort: 8081 # *Optional*
