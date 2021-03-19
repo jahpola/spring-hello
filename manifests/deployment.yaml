@@ -18,7 +18,7 @@ spec:
       serviceAccountName: hello
       containers:
       - name: hello
-        image: kerminator/spring-hello
+        image: public.ecr.aws/kerminator/spring-hello:latest
         resources:
           limits:
             cpu: 1000m

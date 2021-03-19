@@ -4,7 +4,7 @@ metadata:
   name: spring-hello
 build:
   artifacts:
-  - image: kerminator/spring-hello
+  - image: public.ecr.aws/kerminator/spring-hello
     jib: {}
 deploy:
   kubectl:
