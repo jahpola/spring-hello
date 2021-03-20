@@ -1,12 +1,6 @@
 server:
   port: 8081
 
-spring:
-  cloud:
-    kubernetes:
-      reload:
-        enabled: true
-
 management:
   endpoints:
     web:
