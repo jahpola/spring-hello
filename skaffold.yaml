@@ -8,13 +8,15 @@ build:
     jib: {}
 
 portForward:
-  - resourceType: service
+  - resourceType: deployment
     resourceName: hello
     port: 8081 #
     localPort: 8081 # *Optional*
 
 profiles:
   - name: local
+    activation:
+      - kubeContext: kind-kind
     deploy:
       kustomize:
         paths:
