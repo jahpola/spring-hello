@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta13
+apiVersion: skaffold/v4beta7
 kind: Config
 metadata:
   name: spring-hello
@@ -7,24 +7,23 @@ build:
   - image: public.ecr.aws/kerminator/spring-hello
     jib: {}
 
-portForward:
-  - resourceType: deployment
-    resourceName: hello
-    port: 8081 #
-    localPort: 8081 # *Optional*
+# portForward:
+#   - resourceType: deployment
+#     resourceName: hello
+#     port: 8081 #
+#     localPort: 8081 # *Optional*
 
 profiles:
   - name: local
     activation:
-      - kubeContext: kind-kind
-    deploy:
+      - kubeContext: rancher-desktop
+    manifests:
       kustomize:
         paths:
           - manifests/overlays/local
-      kubeContext: kind-kind
-  - name: playground
-    deploy:
-      kustomize:
-        paths: 
-          - manifests/overlays/dev
-      kubeContext: playground
+  # - name: playground
+  #   deploy:
+  #     kustomize:
+  #       paths: 
+  #         - manifests/overlays/dev
+  #     kubeContext: playground

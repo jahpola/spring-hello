@@ -9,7 +9,7 @@ group = "org.kerminator"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = '21'
+	sourceCompatibility = '17'
 }
 
 configurations {
@@ -44,10 +44,11 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
+	//implementation 'io.micrometer:micrometer-registry-otlp:latest.release'
 }
 
 dependencyManagement {
