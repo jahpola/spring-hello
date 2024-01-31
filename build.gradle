@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
-    id 'com.google.cloud.tools.jib' version '3.4.0'
+    //id 'com.google.cloud.tools.jib' version '3.4.0'
 	id 'java'
 }
 
@@ -9,7 +9,7 @@ group = "org.kerminator"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '21'
 }
 
 configurations {
@@ -30,11 +30,16 @@ repositories {
 	mavenCentral()
 }
 
-jib {
-	to {
-		image = "public.ecr.aws/kerminator/spring-hello:latest"
-		credHelper = "ecr-login"
-	}
+// jib {
+// 	to {
+// 		image = "public.ecr.aws/kerminator/spring-hello:latest"
+// 		credHelper = "ecr-login"
+// 	}
+// }
+
+tasks.named("bootBuildImage") {
+	imageName = "public.ecr.aws/kerminator/${project.name}"
+	environment["BP_JVM_JLINK_ENABLED"] = "true"
 }
 
 ext {

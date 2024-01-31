@@ -5,8 +5,7 @@ metadata:
 build:
   artifacts:
   - image: public.ecr.aws/kerminator/spring-hello
-    jib: {}
-
+0
 # portForward:
 #   - resourceType: deployment
 #     resourceName: hello
