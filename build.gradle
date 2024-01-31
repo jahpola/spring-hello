@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '3.2.1'
+	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
     //id 'com.google.cloud.tools.jib' version '3.4.0'
 	id 'java'
@@ -9,7 +9,7 @@ group = "org.kerminator"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = '21'
+	sourceCompatibility = '17'
 }
 
 configurations {
@@ -52,9 +52,9 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
-	//implementation 'io.micrometer:micrometer-registry-otlp:latest.release'
-}
+	implementation "io.micrometer:micrometer-tracing-bridge-otel"
+	//implementation "io.opentelemetry:opentelemetry-exporter-otlp"
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'}
 
 dependencyManagement {
 	imports {
