@@ -5,3 +5,9 @@ resources:
   - rolebinding.yaml
   - sa.yaml
   - service.yaml
+
+commonLabels:
+  app.kubernetes.io/instance: spring-hello
+  app.kubernetes.io/name: spring-hello
+  app.kubernetes.io/version: latest
+  app.kubernetes.io/part-of: otel-demo

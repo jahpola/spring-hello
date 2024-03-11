@@ -1,5 +1,10 @@
 server:
+  shutdown: graceful
   port: 8081
+
+spring:
+  application:
+    name: hello
 
 management:
   endpoints:
@@ -10,7 +15,18 @@ management:
     health:
       probes:
         enabled: true
+  opentelemetry:
+    resource-attributes:
+      application: ${spring.application.name}
+      cluster: local
+      # Micrometer Metrics configures this attribute with "unknown value".
+      # It should probably be autoconfigured correctly by Spring Boot.
+      "service.name": ${spring.application.name}
 
-logging:
- level:
-   org.springframework: DEBUG
+  otlp:
+    tracing:
+      endpoint: http://otel-collector.otel-demo.svc.cluster.local:4318/v1/traces
+
+#logging:
+# level:
+#   org.springframework: DEBUG
