@@ -5,7 +5,8 @@ metadata:
 build:
   artifacts:
   - image: public.ecr.aws/kerminator/spring-hello
-0
+    jib: {}
+
 # portForward:
 #   - resourceType: deployment
 #     resourceName: hello
@@ -20,6 +21,11 @@ profiles:
       kustomize:
         paths:
           - manifests/overlays/local
+  - name: oc
+    manifests:
+      kustomize:
+        paths:
+          - manifests/overlays/oc
   # - name: playground
   #   deploy:
   #     kustomize:
