@@ -34,3 +34,6 @@ out/
 
 ### Mac ###
 .DS_Store
+
+## Ignore local tmp files ##
+tmp/
