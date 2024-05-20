@@ -16,16 +16,19 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 class HelloApplicationTests {
 
+	@Autowired
+	private MockMvc mockMvc;
+
 	@Test
-	void contextLoads() {
+	public void contextLoads(){}
+
+	@Test
+	void root() throws Exception {
+		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string("Hello World"));
 	}
 
 	@Test
-	void testWithMockMvc(@Autowired MockMvc mvc) throws Exception {
-		mvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string("Hello World"));
-	}
-
-	void testtestWithMockMvc(@Autowired MockMvc mvc) throws Exception {
-		mvc.perform(get("/test")).andExpect(status().isOk()).andExpect(content().string("Test Test"));
+	void testtest() throws Exception {
+		mockMvc.perform(get("/test")).andExpect(status().isOk()).andExpect(content().string("Test Test"));
 	}
 }
