@@ -20,7 +20,7 @@ class HelloApplicationTests {
 	private MockMvc mockMvc;
 
 	@Test
-	public void contextLoads(){}
+	void contextLoads() {}
 
 	@Test
 	void root() throws Exception {
