@@ -10,8 +10,8 @@ import org.kerminator.hello.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findByLastName(String lastName);
-    
-    List<Product> findByFirstName(String firstName);
+    List<Product> findByLastname(String lastname);
+
+    //List<Product> findByFirstName(String firstname);
 
 }

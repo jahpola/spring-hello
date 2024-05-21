@@ -3,7 +3,6 @@ package org.kerminator.hello.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.repository.ProductRepository;
-import org.kerminator.hello.service.ProductService;
+//import org.kerminator.hello.service.ProductService;
 
 @RestController
 public class ProductController {
@@ -29,7 +28,7 @@ public class ProductController {
     ProductRepository productRepository;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String firstName) {
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String firstname) {
         try {
             List<Product> products = new ArrayList<Product>();
 
@@ -49,7 +48,7 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
             Product _product = productRepository
-                .save(new Product(product.getFirstName(),product.getLastName()));
+                .save(new Product(product.getFirstname(),product.getLastname()));
             return new ResponseEntity<>(_product, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

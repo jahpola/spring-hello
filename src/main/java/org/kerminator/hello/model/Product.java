@@ -10,43 +10,44 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+	@Column(name = "firstname")
+    private String firstname;
 
-    private String firstName;
-    private String lastName;
+	@Column(name = "lastname")
+	private String lastname;
 
     public Product() {}
 
-	public Product(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
-	@Override
-	public String toString() {
-		return String.format(
-				"Product[id=%d, firstName='%s', lastName='%s']",
-				id, firstName, lastName);
+	public Product(String firstname, String lastname) {
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFirstname() {
+		return firstname;
 	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
     
+	@Override
+	public String toString() {
+		return String.format(
+				"Product[id=%d, firstname='%s', lastname='%s']",
+				id, firstname, lastname);
+	}
 
 }
