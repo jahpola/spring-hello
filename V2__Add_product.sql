@@ -1,0 +1,1 @@
+insert into PRODUCT (first_name, last_name) values('joku','taas');
