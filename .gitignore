@@ -37,3 +37,6 @@ out/
 
 ## Ignore local tmp files ##
 tmp/
+
+## Local H2 db
+*.db
