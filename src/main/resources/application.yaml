@@ -6,10 +6,10 @@ spring:
   application:
     name: hello
   datasource:
-    url: jdbc:h2:file:./foo
+    #url: jdbc:h2:file:./foo
     #driverClassName: org.h2.Driver
-    username: sa
-    password: passu
+    #username: sa
+    #password: passu
   jpa:
     show-sql: true
     hibernate:
@@ -41,9 +41,9 @@ management:
       # It should probably be autoconfigured correctly by Spring Boot.
       "service.name": ${spring.application.name}
 
-  otlp:
-    tracing:
-      endpoint: http://otel-collector.otel-demo.svc.cluster.local:4318/v1/traces
+  #otlp:
+  #  tracing:
+  #    endpoint: http://otel-collector.otel-demo.svc.cluster.local:4318/v1/traces
 
 #logging:
 # level:
