@@ -33,6 +33,9 @@ management:
     health:
       probes:
         enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
   opentelemetry:
     resource-attributes:
       application: ${spring.application.name}
@@ -41,9 +44,9 @@ management:
       # It should probably be autoconfigured correctly by Spring Boot.
       "service.name": ${spring.application.name}
 
-  #otlp:
-  #  tracing:
-  #    endpoint: http://otel-collector.otel-demo.svc.cluster.local:4318/v1/traces
+  otlp:
+    tracing:
+     endpoint: http://otel-collector:4318/v1/traces
 
 #logging:
 # level:
