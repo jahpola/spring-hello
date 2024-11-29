@@ -38,10 +38,11 @@ public class ProductController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // @GetMapping("path")
-    // public ResponseEntity<List<Product>> getAllProducts() {
-    //     return new ResponseEntity<>(products, HttpStatus.OK);
-    // }
+     @GetMapping
+     public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+     }
     
     @Observed(name = "update:Product")
     @PutMapping("/{id}")
