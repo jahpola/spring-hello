@@ -1,6 +1,9 @@
 package org.kerminator.hello.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "product")
 public class Product {
     
@@ -16,12 +20,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String firstname;
-	private String lastname;
+	@Column(nullable = false)
+    private String name;
+	
+	@Column(length = 1000)
+    private String description;
 
-	public Product(String firstname, String lastname) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-	}
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
+    @Column(name = "stock_quantity")
+    private Integer stockQuantity;
+
+    @Column(name = "in_stock")
+    private Boolean inStock;
+    
 }

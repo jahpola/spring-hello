@@ -6,10 +6,10 @@ spring:
   application:
     name: hello
   datasource:
-    #url: jdbc:h2:file:./foo
-    #driverClassName: org.h2.Driver
-    #username: sa
-    #password: passu
+    url: jdbc:h2:file:./foo
+    driverClassName: org.h2.Driver
+    username: sa
+    password: passu
   jpa:
     show-sql: true
     hibernate:
@@ -34,6 +34,7 @@ management:
       probes:
         enabled: true
   tracing:
+    enabled: false
     sampling:
       probability: 1.0
   opentelemetry:
@@ -44,9 +45,9 @@ management:
       # It should probably be autoconfigured correctly by Spring Boot.
       "service.name": ${spring.application.name}
 
-  otlp:
-    tracing:
-     endpoint: http://otel-collector:4318/v1/traces
+  #otlp:
+  #  tracing:
+  #   endpoint: http://otel-collector:4318/v1/traces
 
 #logging:
 # level:
