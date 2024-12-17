@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Testcontainers
-public class HelloRepositoryTests {
+class HelloRepositoryTests {
 
     @Autowired
     private ProductRepository productRepository;
@@ -27,7 +27,7 @@ public class HelloRepositoryTests {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine");
 
     @Test
-    public void saveProductAndFindProduct() {
+    void saveProductAndFindProduct() {
         Product testproduct = Product.builder()
                 .name("takki")
                 .description("takki teline")
