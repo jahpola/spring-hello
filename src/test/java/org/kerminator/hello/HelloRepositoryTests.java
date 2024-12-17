@@ -1,5 +1,8 @@
 package org.kerminator.hello;
 
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kerminator.hello.repository.ProductRepository;
 import org.kerminator.hello.model.Product;
@@ -26,17 +29,45 @@ class HelloRepositoryTests {
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine");
 
-    @Test
-    void saveProductAndFindProduct() {
-        Product testproduct = Product.builder()
+    private Product testproduct;
+
+    @BeforeEach
+    public void setUp() {
+        testproduct = Product.builder()
                 .name("takki")
                 .description("takki teline")
                 .price(BigDecimal.valueOf(10.18))
                 .build();
 
         productRepository.save(testproduct);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        productRepository.deleteAll();
+    }
+
+    @Test
+    void findById() {
+        Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
+        assertTrue(foundProduct.isPresent());
+    }
+
+    @Test
+    void updateProduct() {
+        testproduct.setDescription("ihan eri himmeli");
+        productRepository.save(testproduct);
 
         Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
         assertTrue(foundProduct.isPresent());
+        assert(foundProduct.get().getDescription().equals("ihan eri himmeli"));
+    }
+
+    @Test
+    void deleteProductById() {
+        productRepository.deleteById(testproduct.getId());
+
+        Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
+        assertTrue(foundProduct.isEmpty());
     }
 }
