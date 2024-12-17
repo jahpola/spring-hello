@@ -18,7 +18,7 @@ spec:
       serviceAccountName: hello
       containers:
       - name: hello
-        image: hello:latest
+        image: public.ecr.aws/kerminator/spring-hello:latest
         imagePullPolicy: Never
         ports:
         - name: http
