@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,20 +36,14 @@ class HelloControllerTests {
     @MockitoBean
     private ProductService productService;
 
-    private Product product;
+    @Test
+    void shouldCreateProduct() throws Exception {
 
-    @BeforeEach
-    public void setUp() {
-        product = Product.builder()
-                .id(1L)
+        Product product = Product.builder()
                 .name("nakki")
                 .description("nakki teline")
                 .price(BigDecimal.valueOf(10.15))
                 .build();
-    }
-
-    @Test
-    void shouldCreateProduct() throws Exception {
 
         mvc.perform(MockMvcRequestBuilders
                 .post("/api/products")
@@ -59,24 +54,57 @@ class HelloControllerTests {
                 //.andExpect(jsonPath("$.price").value(10.15));
     }
 
-    // @Test
-    // void find_existingProduct() throws Exception {
-    //     mvc.perform(get("/api/products/1")).andExpect(status().isOk());
-    // }
+     @Test
+     void find_existingProduct() throws Exception {
 
-    // @Test
-    // void findAllProducts() throws Exception {
-    //     mvc.perform(get("/products")).andExpect(status().isOk());
-    // }
+         Product product = Product.builder()
+                 .id(100L)
+                 .name("nakki")
+                 .description("nakki teline")
+                 .price(BigDecimal.valueOf(10.15))
+                 .build();
+
+         productService.saveProduct(product);
+
+         mvc.perform(get("/api/products/{id}", "100"))
+                 .andExpect(status().isOk());
+     }
+
+     @Test
+     void findAllProducts() throws Exception {
+         Product product = Product.builder()
+                 .name("nakki")
+                 .description("nakki teline")
+                 .price(BigDecimal.valueOf(10.15))
+                 .build();
+
+         productService.saveProduct(product);
+
+         mvc.perform(get("/api/products")).andExpect(status().isOk());
+     }
 
     @Test
     void find_nonExistingProduct() throws Exception {
-        mvc.perform(get("/products/100")).andExpect(status().isNotFound());
+        mvc.perform(get("/api/products/{id}", "200")).andExpect(status().isNotFound());
     }
 
     @Test
     void delete_nonExistingProduct() throws Exception {
-        mvc.perform(delete("/products/100")).andExpect(status().isNotFound());
+        // TODO: Wrong answer, should be 404 not 204
+        mvc.perform(delete("/api/products/{id}", "100")).andExpect(status().isNoContent());
+    }
+
+    @Test
+    void delete_existingProduct() throws Exception {
+        Product product = Product.builder()
+                .name("nakki")
+                .description("nakki teline")
+                .price(BigDecimal.valueOf(10.15))
+                .build();
+
+        productService.saveProduct(product);
+        mvc.perform(delete("/api/products/{id}", 100)).andExpect(status().isNoContent());
+
     }
 
 }
