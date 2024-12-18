@@ -17,8 +17,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.mockito.Mockito;
+import static org.mockito.BDDMockito.*;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.springframework.http.MediaType;
@@ -36,14 +40,21 @@ class HelloControllerTests {
     @MockitoBean
     private ProductService productService;
 
-    @Test
-    void shouldCreateProduct() throws Exception {
+    Product product;
 
-        Product product = Product.builder()
+    @BeforeEach
+    public void setup() {
+        product =  Product.builder()
+                .id(1L)
                 .name("nakki")
                 .description("nakki teline")
                 .price(BigDecimal.valueOf(10.15))
                 .build();
+    }
+
+    @Test
+    void shouldCreateProduct() throws Exception {
+        given(productService.saveProduct(any(Product.class))).willReturn(product);
 
         mvc.perform(MockMvcRequestBuilders
                 .post("/api/products")
@@ -55,28 +66,30 @@ class HelloControllerTests {
     }
 
      @Test
+     void shouldUpdateProduct() throws Exception {
+         given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
+         product.setDescription("Ei ole kukkateline");
+         product.setPrice(BigDecimal.valueOf(99.99));
+         given(productService.updateProduct(product.getId(), product)).willReturn(product);
+
+         mvc.perform(MockMvcRequestBuilders
+                 .put("/api/products/{id}", product.getId())
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content(objectMapper.writeValueAsString(product)))
+                 .andExpect(status().isCreated());
+
+
+     }
+     @Test
      void find_existingProduct() throws Exception {
+        given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
 
-         Product product = Product.builder()
-                 .id(100L)
-                 .name("nakki")
-                 .description("nakki teline")
-                 .price(BigDecimal.valueOf(10.15))
-                 .build();
-
-         productService.saveProduct(product);
-
-         mvc.perform(get("/api/products/{id}", "100"))
+         mvc.perform(get("/api/products/{id}", product.getId()))
                  .andExpect(status().isOk());
      }
 
      @Test
      void findAllProducts() throws Exception {
-         Product product = Product.builder()
-                 .name("nakki")
-                 .description("nakki teline")
-                 .price(BigDecimal.valueOf(10.15))
-                 .build();
 
          productService.saveProduct(product);
 
@@ -96,12 +109,6 @@ class HelloControllerTests {
 
     @Test
     void delete_existingProduct() throws Exception {
-        Product product = Product.builder()
-                .name("nakki")
-                .description("nakki teline")
-                .price(BigDecimal.valueOf(10.15))
-                .build();
-
         productService.saveProduct(product);
         mvc.perform(delete("/api/products/{id}", 100)).andExpect(status().isNoContent());
 
