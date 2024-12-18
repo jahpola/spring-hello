@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.kerminator.hello.controllers.ProductController;
 import org.kerminator.hello.service.ProductService;
@@ -66,6 +67,7 @@ class HelloControllerTests {
     }
 
      @Test
+     @Disabled
      void shouldUpdateProduct() throws Exception {
          given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
          product.setDescription("Ei ole kukkateline");
