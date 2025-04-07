@@ -32,7 +32,7 @@ class HelloRepositoryTests {
 
     @BeforeEach
     public void setUp() {
-        testproduct = Product.builder()
+        testproduct = Product.Builder.builder()
                 .name("takki")
                 .description("takki teline")
                 .price(BigDecimal.valueOf(10.18))
