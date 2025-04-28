@@ -19,8 +19,10 @@ spec:
       containers:
       - name: hello
         image: public.ecr.aws/kerminator/spring-hello:latest
+        imagePullPolicy: Never
         ports:
-        - containerPort: 8081
+        - name: http
+          containerPort: 8081
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
