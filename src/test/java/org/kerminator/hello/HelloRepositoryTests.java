@@ -30,16 +30,11 @@ class HelloRepositoryTests {
 
     private Product testproduct;
 
-    @BeforeEach
-    public void setUp() {
-        testproduct = Product.Builder.builder()
-                .name("takki")
-                .description("takki teline")
-                .price(BigDecimal.valueOf(10.18))
-                .build();
+    // @BeforeEach
+    // public void setUp() {
 
-        productRepository.save(testproduct);
-    }
+        
+    // }
 
     @AfterEach
     public void tearDown() {
@@ -48,7 +43,10 @@ class HelloRepositoryTests {
 
     @Test
     void findById() {
-        Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
+        Product product = new Product(100L, "nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
+        productRepository.save(product);
+
+        Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
     }
 
@@ -59,7 +57,7 @@ class HelloRepositoryTests {
 
         Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
         assertTrue(foundProduct.isPresent());
-        assert(foundProduct.get().getDescription().equals("ihan eri himmeli"));
+        assert (foundProduct.get().getDescription().equals("ihan eri himmeli"));
     }
 
     @Test

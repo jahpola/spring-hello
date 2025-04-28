@@ -32,14 +32,18 @@ public class Product {
     @Column(name = "in_stock")
     private Boolean inStock;
 
-    public Product(Builder builder) {
-        this.name = builder.name;
-        this.description = builder.description;
-        this.price = builder.price;
-        this.stockQuantity = builder.stockQuantity;
-        this.inStock = builder.inStock;
+    public Product() {
     }
 
+    public Product(Long id, String name, String description, BigDecimal price, Integer stockQuantity, Boolean inStock) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.inStock = inStock;
+    }
+    
     public void setId(Long id) {
         this.id = id;
     }
@@ -87,59 +91,5 @@ public class Product {
     public void setInStock(Boolean inStock) {
         this.inStock = inStock;
     }
-
-    public static class Builder {
-        private Long id;
-        private String name;
-        private String description;
-        private BigDecimal price;
-        private Integer stockQuantity;
-        private Boolean inStock;
-
-        public Builder() {
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-           
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder price(BigDecimal price) {
-            this.price = price;
-            return this;
-        }
-
-        public Builder stockQuantity(Integer stockQuantity) {
-            this.stockQuantity = stockQuantity;
-            return this;
-        }
-
-        public Builder inStock(Boolean inStock) {
-            this.inStock = inStock;
-            return this;
-        }
-
-        public Product build() {
-            return new Product(this);
-        }
-
-    }
-
-
-
 
 }

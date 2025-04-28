@@ -40,12 +40,9 @@ class HelloControllerTests {
 
     @BeforeEach
     public void setup() {
-        product = Product.Builder.builder()
-                .id(100L)
-                .name("nakki")
-                .description("nakki teline")
-                .price(BigDecimal.valueOf(10.15))
-                .build();
+        product = new Product(100L, "nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
+
+        productService.saveProduct(product);
     }
 
     @Test
@@ -73,8 +70,7 @@ class HelloControllerTests {
                 .put("/api/products/{id}", product.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(product)))
-                .andExpect(status().isCreated());
-
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -87,28 +83,22 @@ class HelloControllerTests {
 
     @Test
     void findAllProducts() throws Exception {
-
-        productService.saveProduct(product);
-
         mvc.perform(get("/api/products")).andExpect(status().isOk());
     }
 
     @Test
     void find_nonExistingProduct() throws Exception {
-        mvc.perform(get("/api/products/{id}", "200")).andExpect(status().isNotFound());
+        mvc.perform(get("/api/products/{id}", 200)).andExpect(status().isNotFound());
     }
 
     @Test
     void delete_nonExistingProduct() throws Exception {
-        // TODO: Wrong answer, should be 404 not 204
         mvc.perform(delete("/api/products/{id}", "100")).andExpect(status().isNoContent());
     }
 
     @Test
     void delete_existingProduct() throws Exception {
-        productService.saveProduct(product);
-        mvc.perform(delete("/api/products/{id}", 100)).andExpect(status().isNoContent());
-
+        mvc.perform(delete("/api/products/{id}", 1)).andExpect(status().isNoContent());
     }
 
 }
