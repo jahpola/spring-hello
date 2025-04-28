@@ -30,7 +30,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    //@Transactional
+    @Transactional
     public Product updateProduct(Long id, Product productDetails) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
@@ -38,12 +38,14 @@ public class ProductService {
             existingProduct.setName(productDetails.getName());
             existingProduct.setDescription(productDetails.getDescription());
             existingProduct.setPrice(productDetails.getPrice());
+            existingProduct.setStockQuantity(productDetails.getStockQuantity());
+            existingProduct.setInStock(productDetails.getInStock());
             return productRepository.save(existingProduct);
         }
         return null; // Or throw an exception
     }
 
-    //@Transactional
+    @Transactional
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
@@ -51,4 +53,9 @@ public class ProductService {
     public Optional<Product> findMostExpensiveProduct() {
         return productRepository.findTopByOrderByPriceDesc();
     }
+    
+    public List<Product> findProductsByStockAvailability(Boolean inStock) {
+        return productRepository.findByInStock(inStock);
+    }
+    
 }
