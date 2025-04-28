@@ -30,7 +30,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    @Transactional
+    //@Transactional
     public Product updateProduct(Long id, Product productDetails) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
@@ -43,7 +43,7 @@ public class ProductService {
         return null; // Or throw an exception
     }
 
-    @Transactional
+    //@Transactional
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }

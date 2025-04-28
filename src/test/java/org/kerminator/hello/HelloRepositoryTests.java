@@ -28,14 +28,19 @@ class HelloRepositoryTests {
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine");
 
-    private Product testproduct;
+    private Product product;
 
-    // @BeforeEach
-    // public void setUp() {
+    @BeforeEach
+    public void setUp() {
+        product = new Product();
+        product.setName("Makkara");
+        product.setDescription("Makkara teline");
+        product.setPrice(BigDecimal.valueOf(99.88));
 
+        productRepository.save(product);
         
-    // }
-
+    }
+ 
     @AfterEach
     public void tearDown() {
         productRepository.deleteAll();
@@ -43,28 +48,25 @@ class HelloRepositoryTests {
 
     @Test
     void findById() {
-        Product product = new Product(100L, "nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
-        productRepository.save(product);
-
         Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
     }
 
     @Test
     void updateProduct() {
-        testproduct.setDescription("ihan eri himmeli");
-        productRepository.save(testproduct);
+        product.setDescription("ihan eri himmeli");
+        productRepository.save(product);
 
-        Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
+        Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
         assert (foundProduct.get().getDescription().equals("ihan eri himmeli"));
     }
 
     @Test
     void deleteProductById() {
-        productRepository.deleteById(testproduct.getId());
+        productRepository.deleteById(product.getId());
 
-        Optional<Product> foundProduct = productRepository.findById(testproduct.getId());
+        Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isEmpty());
     }
 }
