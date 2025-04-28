@@ -31,7 +31,7 @@ class HelloRepositoryTests {
     private Product product;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         product = new Product();
         product.setName("Makkara");
         product.setDescription("Makkara teline");
@@ -42,7 +42,7 @@ class HelloRepositoryTests {
     }
  
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         productRepository.deleteAll();
     }
 

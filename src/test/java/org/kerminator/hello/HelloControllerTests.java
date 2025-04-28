@@ -39,7 +39,7 @@ class HelloControllerTests {
     Product product;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         product = new Product(100L, "nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
 
         productService.saveProduct(product);
@@ -59,7 +59,7 @@ class HelloControllerTests {
     }
 
     @Test
-    @Disabled
+    @Disabled("Fix this test")
     void shouldUpdateProduct() throws Exception {
         given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
         product.setDescription("Ei ole kukkateline");
