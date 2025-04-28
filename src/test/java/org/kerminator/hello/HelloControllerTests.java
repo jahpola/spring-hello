@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -61,7 +62,7 @@ class HelloControllerTests {
     }
 
     @Test
-    @Disabled("Fix this test")
+   @Disabled("Fix this test")
     void shouldUpdateProduct() throws Exception {
         given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
         product.setDescription("Ei ole kukkateline");

@@ -21,7 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @Testcontainers
-public class ProductServiceIntegrationTests {
+class ProductServiceIntegrationTests {
 
     @Container
     @ServiceConnection
