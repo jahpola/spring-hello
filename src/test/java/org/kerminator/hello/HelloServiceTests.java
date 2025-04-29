@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -179,7 +180,7 @@ public class HelloServiceTests {
     @Test
     void testFindProductsByStockAvailability_InStock() {
         // Arrange
-        List<Product> inStockProducts = Arrays.asList(product1);
+        List<Product> inStockProducts = Collections.singletonList(product1);
         when(productRepository.findByInStock(true)).thenReturn(inStockProducts);
         
         // Act
@@ -188,14 +189,14 @@ public class HelloServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(product1.getId(), result.get(0).getId());
+        assertEquals(product1.getId(), result.getFirst().getId());
         verify(productRepository, times(1)).findByInStock(true);
     }
     
     @Test
     void testFindProductsByStockAvailability_OutOfStock() {
         // Arrange
-        List<Product> outOfStockProducts = Arrays.asList(product2);
+        List<Product> outOfStockProducts = Collections.singletonList(product2);
         when(productRepository.findByInStock(false)).thenReturn(outOfStockProducts);
         
         // Act
@@ -204,7 +205,7 @@ public class HelloServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(product2.getId(), result.get(0).getId());
+        assertEquals(product2.getId(), result.getFirst().getId());
         verify(productRepository, times(1)).findByInStock(false);
     }
     

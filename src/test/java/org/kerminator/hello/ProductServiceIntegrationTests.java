@@ -201,14 +201,14 @@ public class ProductServiceIntegrationTests {
         
         // Assert
         assertEquals(1, inStockProducts.size());
-        assertEquals(product1.getId(), inStockProducts.get(0).getId());
+        assertEquals(product1.getId(), inStockProducts.getFirst().getId());
         
         // Act - Find out-of-stock products
         List<Product> outOfStockProducts = productService.findProductsByStockAvailability(false);
         
         // Assert
         assertEquals(1, outOfStockProducts.size());
-        assertEquals(product2.getId(), outOfStockProducts.get(0).getId());
+        assertEquals(product2.getId(), outOfStockProducts.getFirst().getId());
     }
     
 }

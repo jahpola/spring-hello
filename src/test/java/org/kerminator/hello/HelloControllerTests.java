@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(ProductController.class)
 class HelloControllerTests {
@@ -53,9 +55,9 @@ class HelloControllerTests {
                 .post("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(product)))
+                .andExpect(jsonPath("$.name").value("nakki"))
+                .andExpect(jsonPath("$.price").value(10.15))
                 .andExpect(status().isCreated());
-        // .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("nakki"));
-        // .andExpect(jsonPath("$.price").value(10.15));
     }
 
     @Test
