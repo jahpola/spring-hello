@@ -1,0 +1,28 @@
+schemaVersion: 2.0.0
+metadata:
+  name: spring-boot-gradle-app
+components:
+  - name: dev
+    container:
+      image: public.ecr.aws/aws-mde/universal-image:latest
+      memoryLimit: 4Gi
+      mountSources: true
+      endpoints:
+        - name: web
+          targetPort: 8080
+commands:
+  - id: install
+    exec:
+      component: dev
+      commandLine: "./gradlew dependencies"
+      workingDir: ${PROJECT_SOURCE}
+  - id: build
+    exec:
+      component: dev
+      commandLine: "./gradlew build -x test"
+      workingDir: ${PROJECT_SOURCE}
+  - id: test
+    exec:
+      component: dev
+      commandLine: "./gradlew test"
+      workingDir: ${PROJECT_SOURCE}
