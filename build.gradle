@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '3.5.5'
+	id 'org.springframework.boot' version '4.0.0-M2'
 	id 'io.spring.dependency-management' version '1.1.7'
     //id 'com.google.cloud.tools.jib' version '3.4.1'
 	id "org.sonarqube" version '6.3.1.5724'
@@ -41,7 +41,7 @@ tasks.named("bootBuildImage") {
 }
 
 ext {
-	set('springCloudVersion', "2025.0.0")
+	set('springCloudVersion', "2025.1.0-M1")
 }
 
 dependencies {
