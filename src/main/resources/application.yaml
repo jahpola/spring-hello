@@ -9,6 +9,7 @@ spring:
     compose:
       enabled: true
   datasource:
+    url: jdbc:postgresql://localhost:5432/product
     #url: jdbc:h2:file:./foo
     #driverClassName: org.h2.Driver
     username: sa

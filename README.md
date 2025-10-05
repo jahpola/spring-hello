@@ -2,7 +2,26 @@
 
 Spring Cloud rest controller. Registers itself into Spring Cloud Gateway
 
-## installation
+## Quick Start
+
+### Option 1: Docker Compose (Recommended)
+```bash
+# Start database only (for development)
+docker-compose -f compose.dev.yaml up -d
+./gradlew bootRun
+
+# Or start full stack
+docker-compose up -d
+```
+
+### Option 2: Local Development
+```bash
+# Uses Testcontainers automatically
+./gradlew bootRun
+./gradlew test
+```
+
+## Installation
 1. uses gradlew
 2. install some local kubernetes
 3. run skaffold dev
