@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.repository.ProductRepository;
 import org.kerminator.hello.service.ProductService;
@@ -128,11 +129,11 @@ class HelloServiceTests {
         
         when(productRepository.findById(3L)).thenReturn(Optional.empty());
         
-        // Act
-        Product result = productService.updateProduct(3L, updatedProduct);
+        // Act & Assert
+        assertThrows(ProductNotFoundException.class, () -> {
+            productService.updateProduct(3L, updatedProduct);
+        });
         
-        // Assert
-        assertNull(result);
         verify(productRepository, times(1)).findById(3L);
         verify(productRepository, never()).save(any(Product.class));
     }
@@ -140,13 +141,29 @@ class HelloServiceTests {
     @Test
     void testDeleteProduct() {
         // Arrange
+        when(productRepository.existsById(1L)).thenReturn(true);
         doNothing().when(productRepository).deleteById(1L);
         
         // Act
         productService.deleteProduct(1L);
         
         // Assert
+        verify(productRepository, times(1)).existsById(1L);
         verify(productRepository, times(1)).deleteById(1L);
+    }
+    
+    @Test
+    void testDeleteProduct_NonExistingProduct() {
+        // Arrange
+        when(productRepository.existsById(3L)).thenReturn(false);
+        
+        // Act & Assert
+        assertThrows(ProductNotFoundException.class, () -> {
+            productService.deleteProduct(3L);
+        });
+        
+        verify(productRepository, times(1)).existsById(3L);
+        verify(productRepository, never()).deleteById(3L);
     }
     
     @Test
