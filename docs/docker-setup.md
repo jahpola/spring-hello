@@ -121,8 +121,8 @@ The application supports the following environment variables:
 - **Volume**: `postgres_data`
 - **Mount Point**: `/var/lib/postgresql/data`
 - **Initialization**: SQL scripts auto-executed on first run
-  - `V1__Create_product_table.sql`
-  - `V2__Add_product.sql`
+  - `src/main/resources/db/migration/V1__Create_product_table.sql`
+  - `src/main/resources/db/migration/V2__Add_product.sql`
 
 ## Health Checks
 
