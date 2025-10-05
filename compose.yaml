@@ -1,9 +1,56 @@
 services:
   database:
-    image: 'postgres:17'
+    image: 'postgres:17-alpine'
+    container_name: spring-hello-postgres
+    restart: unless-stopped
     ports:
-    - '5432:5432'
+      - '5432:5432'
     environment:
-    - 'POSTGRES_USER=sa'
-    - 'POSTGRES_DB=product'
-    - 'POSTGRES_PASSWORD=passu'
+      - 'POSTGRES_USER=sa'
+      - 'POSTGRES_DB=product'
+      - 'POSTGRES_PASSWORD=passu'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./V1__Create_product_table.sql:/docker-entrypoint-initdb.d/V1__Create_product_table.sql:ro
+      - ./V2__Add_product.sql:/docker-entrypoint-initdb.d/V2__Add_product.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sa -d product"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - spring-hello-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-hello-app
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/product'
+      - 'SPRING_DATASOURCE_USERNAME=sa'
+      - 'SPRING_DATASOURCE_PASSWORD=passu'
+      - 'SPRING_PROFILES_ACTIVE=docker'
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - spring-hello-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  spring-hello-network:
+    driver: bridge
