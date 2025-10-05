@@ -1,5 +1,6 @@
 package org.kerminator.hello.service;
 
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -32,21 +33,21 @@ public class ProductService {
 
     @Transactional
     public Product updateProduct(Long id, Product productDetails) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            Product existingProduct = product.get();
-            existingProduct.setName(productDetails.getName());
-            existingProduct.setDescription(productDetails.getDescription());
-            existingProduct.setPrice(productDetails.getPrice());
-            existingProduct.setStockQuantity(productDetails.getStockQuantity());
-            existingProduct.setInStock(productDetails.getInStock());
-            return productRepository.save(existingProduct);
-        }
-        return null; // Or throw an exception
+        Product existingProduct = productRepository.findById(id)
+            .orElseThrow(() -> new ProductNotFoundException(id));
+        existingProduct.setName(productDetails.getName());
+        existingProduct.setDescription(productDetails.getDescription());
+        existingProduct.setPrice(productDetails.getPrice());
+        existingProduct.setStockQuantity(productDetails.getStockQuantity());
+        existingProduct.setInStock(productDetails.getInStock());
+        return productRepository.save(existingProduct);
     }
 
     @Transactional
     public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException(id);
+        }
         productRepository.deleteById(id);
     }
 
