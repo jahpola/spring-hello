@@ -1,15 +1,18 @@
 # Git
-.git
+.git/
 .gitignore
+.gitattributes
 
 # Documentation
 README.md
 docs/
+*.md
 
-# Build output
+# Build output (will be built inside container)
 build/
 target/
 *.log
+bin/
 
 # IDE files
 .idea/
@@ -17,21 +20,55 @@ target/
 *.iml
 *.ipr
 *.iws
+.project
+.classpath
+.settings/
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Temporary files
 tmp/
 temp/
+.tmp/
 
-# Docker files
-Dockerfile
+# Docker files (except Dockerfile itself)
 .dockerignore
 compose.yaml
 compose.yml
+compose.dev.yaml
+docker-compose.yml
+docker-compose.yaml
 
 # CI/CD
 .github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
 sonar-project.properties
+.sonarqube/
+
+# Test reports and coverage
+coverage/
+test-results/
+*.exec
+
+# Kubernetes manifests
+manifests/
+k8s/
+*.yaml
+*.yml
+!gradle.properties
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache (if any)
+__pycache__/
+*.py[cod]
+*$py.class
