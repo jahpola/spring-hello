@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://database:5432/product
+    username: sa
+    password: passu
+  docker:
+    compose:
+      enabled: false  # Disable auto-discovery when running in Docker
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+logging:
+  level:
+    org.springframework.jdbc: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.repository.ProductRepository;
 import org.kerminator.hello.service.ProductService;
@@ -181,11 +182,10 @@ class ProductServiceIntegrationTests {
         updatedDetails.setDescription("Updated Description");
         updatedDetails.setPrice(BigDecimal.valueOf(49.99));
 
-        // Act
-        Product result = productService.updateProduct(nonExistingId, updatedDetails);
-
-        // Assert
-        assertNull(result);
+        // Act & Assert
+        assertThrows(ProductNotFoundException.class, () -> {
+            productService.updateProduct(nonExistingId, updatedDetails);
+        });
     }
     
     @Test

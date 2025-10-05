@@ -1,8 +1,8 @@
 package org.kerminator.hello.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -37,9 +37,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(name = "id") Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Product product = productService.getProductById(id)
+            .orElseThrow(() -> new ProductNotFoundException(id));
+        return ResponseEntity.ok(product);
     }
 
      @GetMapping
@@ -50,20 +50,16 @@ public class ProductController {
     
     @Observed(name = "update:Product")
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(name="id") Long id, @RequestBody Product productDetails) {
+    public ResponseEntity<Product> updateProduct(@PathVariable(name="id") Long id, @RequestBody @Valid Product productDetails) {
         Product updatedProduct = productService.updateProduct(id, productDetails);
-        if (updatedProduct != null) {
-            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(updatedProduct);
     } 
 
     @Observed(name = "delete:Product")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name="id") Long id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
 }
