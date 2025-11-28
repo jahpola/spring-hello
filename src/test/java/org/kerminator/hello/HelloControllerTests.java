@@ -17,10 +17,10 @@ import org.kerminator.hello.controllers.ProductController;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +60,7 @@ class HelloControllerTests {
     }
 
     @Test
-   @Disabled("Fix this test")
+    @Disabled("Fix this test")
     void shouldUpdateProduct() throws Exception {
         given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
         product.setDescription("Ei ole kukkateline");
