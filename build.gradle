@@ -77,7 +77,7 @@ dependencyManagement {
 
 tasks.named("test") {
 	useJUnitPlatform()
-	maxParallelForks = 4
+	//maxParallelForks = 4
 }
 
 jacocoTestReport {

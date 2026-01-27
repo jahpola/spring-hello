@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
         return ResponseEntity.ok(product);
@@ -43,14 +43,14 @@ public class ProductController {
 
     @Observed(name = "update:Product")
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") Long id, @RequestBody @Valid Product productDetails) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody @Valid Product productDetails) {
         Product updatedProduct = productService.updateProduct(id, productDetails);
         return ResponseEntity.ok(updatedProduct);
     }
 
     @Observed(name = "delete:Product")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,12 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // Helper method to sanitize the path
+    private String getSanitizedPath(WebRequest request) {
+        String path = request.getDescription(false).replace("uri=", "");
+        return HtmlUtils.htmlEscape(path);
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ValidationErrorResponse> handleProductNotFound(
             ProductNotFoundException ex, WebRequest request) {
@@ -25,7 +32,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 "Product Not Found",
                 ex.getMessage(),
-                request.getDescription(false).replace("uri=", "")
+                getSanitizedPath(request) // Use sanitized path
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
@@ -39,17 +46,16 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Validation Failed",
                 "Request validation failed",
-                request.getDescription(false).replace("uri=", "")
+                getSanitizedPath(request) // Use sanitized path
         );
 
-        // Extract field errors
+        // ... (rest of the method remains the same)
         Map<String, String> fieldErrors = new HashMap<>();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             fieldErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
         errorResponse.setFieldErrors(fieldErrors);
 
-        // Extract global errors (object-level validation errors)
         List<String> globalErrors = ex.getBindingResult().getGlobalErrors()
                 .stream()
                 .map(ObjectError::getDefaultMessage)
@@ -67,7 +73,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal Server Error",
                 "An unexpected error occurred",
-                request.getDescription(false).replace("uri=", "")
+                getSanitizedPath(request) // Use sanitized path
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);

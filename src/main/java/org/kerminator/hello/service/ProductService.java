@@ -7,6 +7,7 @@ import org.kerminator.hello.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,18 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    // Helper method to sanitize input
+    private void sanitizeProduct(Product product) {
+        if (product.getName() != null) {
+            product.setName(HtmlUtils.htmlEscape(product.getName()));
+        }
+        if (product.getDescription() != null) {
+            product.setDescription(HtmlUtils.htmlEscape(product.getDescription()));
+        }
+    }
+
     public Product saveProduct(Product product) {
+        sanitizeProduct(product);
         return productRepository.save(product);
     }
 
@@ -39,6 +51,10 @@ public class ProductService {
     public Product updateProduct(Long id, Product productDetails) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
+
+        // Sanitize new details
+        sanitizeProduct(productDetails);
+
         existingProduct.setName(productDetails.getName());
         existingProduct.setDescription(productDetails.getDescription());
         existingProduct.setPrice(productDetails.getPrice());
