@@ -1,6 +1,8 @@
-CREATE TABLE PRODUCT (
-    id bigint not null,
-    first_name varchar(255),
-    last_name varchar(255),
-    primary key (id)
-)
+CREATE TABLE products (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(1000),
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INTEGER,
+    in_stock BOOLEAN
+);
