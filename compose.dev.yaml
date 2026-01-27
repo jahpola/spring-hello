@@ -15,8 +15,8 @@ services:
       - 'POSTGRES_PASSWORD=passu'
     volumes:
       - postgres_dev_data:/var/lib/postgresql/18/docker
-      - ./src/main/resources/db/migration/V1__Create_product_table.sql:/docker-entrypoint-initdb.d/V1__Create_product_table.sql:ro
-      - ./src/main/resources/db/migration/V2__Add_product.sql:/docker-entrypoint-initdb.d/V2__Add_product.sql:ro
+      #- ./src/main/resources/db/migration/V1__Create_product_table.sql:/docker-entrypoint-initdb.d/V1__Create_product_table.sql:ro
+      #- ./src/main/resources/db/migration/V2__Add_product.sql:/docker-entrypoint-initdb.d/V2__Add_product.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U sa -d product"]
       interval: 10s
