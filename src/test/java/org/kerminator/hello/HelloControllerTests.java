@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.kerminator.hello.controllers.ProductController;
 import org.kerminator.hello.model.Product;
@@ -83,8 +82,7 @@ class HelloControllerTests {
                 .andExpect(status().isOk());
     }
 
-/*    @Test
-    @Disabled
+    @Test
     void findAllProducts() throws Exception {
         // Arrange
         given(productService.getAllProducts(any(Pageable.class)))
@@ -98,7 +96,7 @@ class HelloControllerTests {
                 .andExpect(jsonPath("$.page.totalElements").value(1))
                 .andExpect(jsonPath("$.page.number").value(0))
                 .andExpect(jsonPath("$.page.totalPages").value(1));
-    }*/
+    }
 
     @Test
     void find_nonExistingProduct() throws Exception {
