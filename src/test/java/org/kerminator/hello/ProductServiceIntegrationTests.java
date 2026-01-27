@@ -19,6 +19,8 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @SpringBootTest
 @Testcontainers
@@ -110,12 +112,12 @@ class ProductServiceIntegrationTests {
     @Test
     void testGetAllProducts() {
         // Act
-        List<Product> products = productService.getAllProducts();
+        Page<Product> products = productService.getAllProducts(PageRequest.of(0, 10));
 
         // Assert
-        assertEquals(2, products.size());
-        assertTrue(products.stream().anyMatch(p -> p.getId().equals(product1.getId())));
-        assertTrue(products.stream().anyMatch(p -> p.getId().equals(product2.getId())));
+        assertEquals(2, products.getTotalElements());
+        assertTrue(products.getContent().stream().anyMatch(p -> p.getId().equals(product1.getId())));
+        assertTrue(products.getContent().stream().anyMatch(p -> p.getId().equals(product2.getId())));
     }
 
     @Test
@@ -187,7 +189,7 @@ class ProductServiceIntegrationTests {
             productService.updateProduct(nonExistingId, updatedDetails);
         });
     }
-    
+
     @Test
     void testFindProductsByStockAvailability() {
         // Arrange - product1 is in stock, product2 is out of stock
@@ -198,17 +200,17 @@ class ProductServiceIntegrationTests {
 
         // Act - Find in-stock products
         List<Product> inStockProducts = productService.findProductsByStockAvailability(true);
-        
+
         // Assert
         assertEquals(1, inStockProducts.size());
         assertEquals(product1.getId(), inStockProducts.getFirst().getId());
-        
+
         // Act - Find out-of-stock products
         List<Product> outOfStockProducts = productService.findProductsByStockAvailability(false);
-        
+
         // Assert
         assertEquals(1, outOfStockProducts.size());
         assertEquals(product2.getId(), outOfStockProducts.getFirst().getId());
     }
-    
+
 }

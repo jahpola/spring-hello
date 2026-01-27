@@ -21,7 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ProductController.class)
@@ -82,7 +84,13 @@ class HelloControllerTests {
 
     @Test
     void findAllProducts() throws Exception {
-        mvc.perform(get("/api/products")).andExpect(status().isOk());
+        given(productService.getAllProducts(any(Pageable.class)))
+                .willReturn(new PageImpl<>(List.of(product)));
+
+        mvc.perform(get("/api/products"))
+                .andExpect(status().isOk())
+                // Spring Data Page returns content in a "content" field
+                .andExpect(jsonPath("$.content[0].name").value("nakki"));
     }
 
     @Test
