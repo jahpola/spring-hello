@@ -1,10 +1,11 @@
 package org.kerminator.hello.controllers;
 
-import java.util.List;
-
 import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,8 +44,8 @@ public class ProductController {
     }
 
      @GetMapping
-     public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
+     public ResponseEntity<Page<Product>> getAllProducts(@PageableDefault(size=20) Pageable pageable) {
+        Page<Product> products = productService.getAllProducts(pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
      }
     
