@@ -9,6 +9,6 @@
 ## Basics
 
 - Java 25
-- Gradle 9.3.0
+- Gradle 9.3.1
 - Spring boot 4.0.x
 - PostgreSQL 18.x database
