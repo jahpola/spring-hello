@@ -29,7 +29,7 @@ RUN mkdir -p build/dependency && \
     java -Djarmode=layertools -jar ../libs/*-SNAPSHOT.jar extract
 
 # Stage 2: Runtime stage
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:25-jre-alpine AS runtime
 
 # Install curl for health checks and create non-root user
 RUN apk add --no-cache curl && \
