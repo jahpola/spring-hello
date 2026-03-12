@@ -45,6 +45,13 @@ management:
       # It should probably be autoconfigured correctly by Spring Boot.
       "service.name": ${spring.application.name}
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
   #otlp:
   #  tracing:
   #   endpoint: http://otel-collector:4318/v1/traces

@@ -43,10 +43,6 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
-    /*public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }*/
-
     @Transactional
     public Product updateProduct(Long id, Product productDetails) {
         Product existingProduct = productRepository.findById(id)
