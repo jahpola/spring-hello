@@ -54,7 +54,7 @@ dependencies {
 	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.2'
     //implementation "io.micrometer:micrometer-tracing-bridge-otel"
     //implementation "io.opentelemetry:opentelemetry-exporter-otlp"
-	implementation("org.springframework.boot:spring-boot-starter-flyway:4.0.3")
+	implementation("org.springframework.boot:spring-boot-starter-flyway:4.0.4")
     implementation 'org.flywaydb:flyway-database-postgresql'
     //runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     runtimeOnly 'org.postgresql:postgresql'
