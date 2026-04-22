@@ -1,5 +1,7 @@
 package org.kerminator.hello.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     // Helper method to sanitize the path
     private String getSanitizedPath(WebRequest request) {
@@ -69,11 +73,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ValidationErrorResponse> handleGenericException(
             Exception ex, WebRequest request) {
 
+        logger.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+
         ValidationErrorResponse errorResponse = new ValidationErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal Server Error",
                 "An unexpected error occurred",
-                getSanitizedPath(request) // Use sanitized path
+                getSanitizedPath(request)
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);

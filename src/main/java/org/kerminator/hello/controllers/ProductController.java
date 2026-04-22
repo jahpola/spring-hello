@@ -1,6 +1,7 @@
 package org.kerminator.hello.controllers;
 
 import io.micrometer.observation.annotation.Observed;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Product", description = "CRUD operations for products")
 public class ProductController {
     private final ProductService productService;
 
