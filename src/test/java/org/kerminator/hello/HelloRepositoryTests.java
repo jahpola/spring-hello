@@ -15,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -59,7 +60,7 @@ class HelloRepositoryTests {
 
         Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
-        assert (foundProduct.get().getDescription().equals("ihan eri himmeli"));
+        assertEquals("ihan eri himmeli", foundProduct.get().getDescription());
     }
 
     @Test

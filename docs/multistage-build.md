@@ -16,10 +16,10 @@ Successfully implemented a sophisticated multistage Docker build for the Spring 
 
 ## 🏗️ Architecture
 
-### Stage 1: Builder (`eclipse-temurin:21-jdk-alpine`)
+### Stage 1: Builder (`eclipse-temurin:25-jdk-alpine`)
 ```dockerfile
 # Purpose: Compile and build the application
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:25-jdk-alpine AS builder
 WORKDIR /app
 
 # Layer 1: Build files (rarely change)
@@ -40,10 +40,10 @@ RUN mkdir -p build/dependency && \
     java -Djarmode=layertools -jar ../libs/*-SNAPSHOT.jar extract
 ```
 
-### Stage 2: Runtime (`eclipse-temurin:21-jre-alpine`)
+### Stage 2: Runtime (`eclipse-temurin:25-jre-alpine`)
 ```dockerfile
 # Purpose: Run the optimized application
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:25-jre-alpine AS runtime
 
 # Security setup
 RUN apk add --no-cache curl && \
@@ -62,7 +62,7 @@ COPY --from=builder app/build/dependency/application/ ./
 RUN chown -R spring:spring /app
 USER spring
 EXPOSE 8081
-ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0"
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS org.springframework.boot.loader.launch.JarLauncher"]
 ```
 

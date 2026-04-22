@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.controllers.ProductController;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import tools.jackson.databind.ObjectMapper;
+import static org.mockito.BDDMockito.willThrow;
 
 @WebMvcTest(ProductController.class)
 class HelloControllerTests {
@@ -62,7 +63,6 @@ class HelloControllerTests {
 
     @Test
     void shouldUpdateProduct() throws Exception {
-        given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
         product.setDescription("Ei ole kukkateline");
         product.setPrice(BigDecimal.valueOf(99.99));
         given(productService.updateProduct(product.getId(), product)).willReturn(product);
@@ -76,7 +76,7 @@ class HelloControllerTests {
 
     @Test
     void find_existingProduct() throws Exception {
-        given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
+        given(productService.getProductByIdOrThrow(product.getId())).willReturn(product);
 
         mvc.perform(get("/api/products/{id}", product.getId()))
                 .andExpect(status().isOk());
@@ -100,12 +100,16 @@ class HelloControllerTests {
 
     @Test
     void find_nonExistingProduct() throws Exception {
+        willThrow(new ProductNotFoundException(200L)).given(productService).getProductByIdOrThrow(200L);
+
         mvc.perform(get("/api/products/{id}", 200)).andExpect(status().isNotFound());
     }
 
     @Test
     void delete_nonExistingProduct() throws Exception {
-        mvc.perform(delete("/api/products/{id}", "100")).andExpect(status().isNoContent());
+        willThrow(new ProductNotFoundException(100L)).given(productService).deleteProduct(100L);
+
+        mvc.perform(delete("/api/products/{id}", 100L)).andExpect(status().isNotFound());
     }
 
     @Test

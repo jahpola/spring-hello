@@ -8,12 +8,16 @@ Base URL: `/api/products`
 
 ### Get All Products
 
-Retrieves a list of all products.
+Retrieves a paginated list of all products.
 
 - **URL**: `/api/products`
 - **Method**: `GET`
 - **Auth required**: No
 - **Permissions required**: None
+- **Query Parameters**:
+  - `page`: Page number (default: 0)
+  - `size`: Items per page (default: 20)
+  - `sort`: Sort field and direction (optional)
 
 #### Success Response
 
@@ -21,24 +25,38 @@ Retrieves a list of all products.
 - **Content example**:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Product Name",
-    "description": "Product description",
-    "price": 19.99,
-    "stockQuantity": 100,
-    "inStock": true
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Product Name",
+      "description": "Product description",
+      "price": 19.99,
+      "stockQuantity": 100,
+      "inStock": true
+    },
+    {
+      "id": 2,
+      "name": "Another Product",
+      "description": "Another description",
+      "price": 29.99,
+      "stockQuantity": 50,
+      "inStock": true
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 20
   },
-  {
-    "id": 2,
-    "name": "Another Product",
-    "description": "Another description",
-    "price": 29.99,
-    "stockQuantity": 50,
-    "inStock": true
-  }
-]
+  "totalPages": 1,
+  "totalElements": 2,
+  "first": true,
+  "last": true,
+  "number": 0,
+  "size": 20,
+  "numberOfElements": 2,
+  "empty": false
+}
 ```
 
 ### Get Product by ID
