@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,9 +55,10 @@ public class GlobalExceptionHandler {
         );
 
         // ... (rest of the method remains the same)
-        Map<String, String> fieldErrors = new HashMap<>();
+        Map<String, List<String>> fieldErrors = new LinkedHashMap<>();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            fieldErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            fieldErrors.computeIfAbsent(fieldError.getField(), ignored -> new ArrayList<>())
+                    .add(fieldError.getDefaultMessage());
         }
         errorResponse.setFieldErrors(fieldErrors);
 

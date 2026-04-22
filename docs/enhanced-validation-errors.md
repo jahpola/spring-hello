@@ -22,9 +22,16 @@ The GlobalExceptionHandler has been enhanced to provide detailed, structured val
   "message": "Request validation failed",
   "path": "/api/products",
   "fieldErrors": {
-    "name": "Product name is required",
-    "price": "Price must be greater than 0.00",
-    "description": "Description cannot exceed 1000 characters"
+    "name": [
+      "Product name is required",
+      "Product name must be between 2 and 100 characters"
+    ],
+    "price": [
+      "Price must be greater than 0.00"
+    ],
+    "description": [
+      "Description cannot exceed 1000 characters"
+    ]
   },
   "globalErrors": []
 }
@@ -38,13 +45,13 @@ The GlobalExceptionHandler has been enhanced to provide detailed, structured val
 - **Error**: Error type description
 - **Message**: General error message
 - **Path**: The request path that caused the error
-- **Field Errors**: Specific field validation failures with custom messages
+- **Field Errors**: Specific field validation failures with one or more messages per field
 - **Global Errors**: Object-level validation errors
 
 ### Field-Level Validation
 The enhanced handler extracts individual field validation errors, providing:
 - **Field Name**: Which field failed validation
-- **Error Message**: Specific reason for failure
+- **Error Messages**: One or more specific reasons for failure per field
 
 ### Added Validation Rules
 The Product model now includes comprehensive validation:
@@ -75,8 +82,13 @@ Content-Type: application/json
   "message": "Request validation failed",
   "path": "/api/products",
   "fieldErrors": {
-    "name": "Product name is required",
-    "price": "Price must be greater than 0.00"
+    "name": [
+      "Product name is required",
+      "Product name must be between 2 and 100 characters"
+    ],
+    "price": [
+      "Price must be greater than 0.00"
+    ]
   },
   "globalErrors": []
 }

@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.controllers.ProductController;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import tools.jackson.databind.ObjectMapper;
+import static org.mockito.BDDMockito.willThrow;
 
 @WebMvcTest(ProductController.class)
 class HelloControllerTests {
@@ -105,7 +107,9 @@ class HelloControllerTests {
 
     @Test
     void delete_nonExistingProduct() throws Exception {
-        mvc.perform(delete("/api/products/{id}", "100")).andExpect(status().isNoContent());
+        willThrow(new ProductNotFoundException(100L)).given(productService).deleteProduct(100L);
+
+        mvc.perform(delete("/api/products/{id}", 100L)).andExpect(status().isNotFound());
     }
 
     @Test

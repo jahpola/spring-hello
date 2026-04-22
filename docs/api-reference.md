@@ -45,7 +45,7 @@ Creates a new product.
 ---
 
 ### Get Product by ID
-**GET** `/products/{id}`
+**GET** `/api/products/{id}`
 
 Retrieves a single product by ID.
 
@@ -120,7 +120,7 @@ Retrieves paginated list of products.
 ---
 
 ### Update Product
-**PUT** `/products/{id}`
+**PUT** `/api/products/{id}`
 
 Updates an existing product.
 
@@ -152,7 +152,7 @@ Updates an existing product.
 ---
 
 ### Delete Product
-**DELETE** `/products/{id}`
+**DELETE** `/api/products/{id}`
 
 Deletes a product by ID.
 
@@ -170,16 +170,19 @@ Deletes a product by ID.
 {
   "timestamp": "2024-01-15T10:30:00",
   "status": 400,
-  "errors": [
-    {
-      "field": "name",
-      "message": "Product name is required"
-    },
-    {
-      "field": "price",
-      "message": "Price must be greater than 0.00"
-    }
-  ]
+  "error": "Validation Failed",
+  "message": "Request validation failed",
+  "path": "/api/products",
+  "fieldErrors": {
+    "name": [
+      "Product name is required",
+      "Product name must be between 2 and 100 characters"
+    ],
+    "price": [
+      "Price must be greater than 0.00"
+    ]
+  },
+  "globalErrors": []
 }
 ```
 

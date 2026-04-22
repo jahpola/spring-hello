@@ -15,7 +15,7 @@ public class ValidationErrorResponse {
     private String error;
     private String message;
     private String path;
-    private Map<String, String> fieldErrors;
+    private Map<String, List<String>> fieldErrors;
     private List<String> globalErrors;
 
     public ValidationErrorResponse() {
@@ -71,11 +71,11 @@ public class ValidationErrorResponse {
         this.path = path;
     }
 
-    public Map<String, String> getFieldErrors() {
+    public Map<String, List<String>> getFieldErrors() {
         return fieldErrors;
     }
 
-    public void setFieldErrors(Map<String, String> fieldErrors) {
+    public void setFieldErrors(Map<String, List<String>> fieldErrors) {
         this.fieldErrors = fieldErrors;
     }
 

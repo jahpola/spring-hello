@@ -23,10 +23,10 @@ public class ProductService {
     // Helper method to sanitize input
     private void sanitizeProduct(Product product) {
         if (product.getName() != null) {
-            product.setName(HtmlUtils.htmlEscape(product.getName()));
+            product.setName(HtmlUtils.htmlEscape(HtmlUtils.htmlUnescape(product.getName())));
         }
         if (product.getDescription() != null) {
-            product.setDescription(HtmlUtils.htmlEscape(product.getDescription()));
+            product.setDescription(HtmlUtils.htmlEscape(HtmlUtils.htmlUnescape(product.getDescription())));
         }
     }
 
