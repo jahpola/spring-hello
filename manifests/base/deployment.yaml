@@ -16,6 +16,8 @@ spec:
         app: hello
     spec:
       serviceAccountName: hello
+      securityContext:
+        runAsNonRoot: true
       containers:
       - name: hello
         image: public.ecr.aws/kerminator/spring-hello:latest
