@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +63,6 @@ class HelloControllerTests {
 
     @Test
     void shouldUpdateProduct() throws Exception {
-        given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
         product.setDescription("Ei ole kukkateline");
         product.setPrice(BigDecimal.valueOf(99.99));
         given(productService.updateProduct(product.getId(), product)).willReturn(product);
@@ -78,7 +76,7 @@ class HelloControllerTests {
 
     @Test
     void find_existingProduct() throws Exception {
-        given(productService.getProductById(product.getId())).willReturn(Optional.of(product));
+        given(productService.getProductByIdOrThrow(product.getId())).willReturn(product);
 
         mvc.perform(get("/api/products/{id}", product.getId()))
                 .andExpect(status().isOk());
@@ -102,6 +100,8 @@ class HelloControllerTests {
 
     @Test
     void find_nonExistingProduct() throws Exception {
+        willThrow(new ProductNotFoundException(200L)).given(productService).getProductByIdOrThrow(200L);
+
         mvc.perform(get("/api/products/{id}", 200)).andExpect(status().isNotFound());
     }
 

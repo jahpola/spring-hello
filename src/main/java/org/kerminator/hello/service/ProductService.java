@@ -39,6 +39,11 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public Product getProductByIdOrThrow(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+
     public Page<Product> getAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
     }

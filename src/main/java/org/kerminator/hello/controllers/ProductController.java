@@ -3,7 +3,6 @@ package org.kerminator.hello.controllers;
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -32,8 +31,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Product product = productService.getProductById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+        Product product = productService.getProductByIdOrThrow(id);
         return ResponseEntity.ok(product);
     }
 
