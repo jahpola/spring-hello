@@ -87,6 +87,31 @@ class HelloServiceTests {
     }
 
     @Test
+    void testGetProductByIdOrThrow_ExistingProduct() {
+        // Arrange
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
+
+        // Act
+        Product foundProduct = productService.getProductByIdOrThrow(1L);
+
+        // Assert
+        assertNotNull(foundProduct);
+        assertEquals(product1.getId(), foundProduct.getId());
+        assertEquals(product1.getName(), foundProduct.getName());
+        verify(productRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testGetProductByIdOrThrow_NonExistingProduct() {
+        // Arrange
+        when(productRepository.findById(3L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductByIdOrThrow(3L));
+        verify(productRepository, times(1)).findById(3L);
+    }
+
+    @Test
     void testGetAllProducts() {
         // Arrange
         List<Product> productList = Arrays.asList(product1, product2);
@@ -171,6 +196,45 @@ class HelloServiceTests {
 
         verify(productRepository, times(1)).existsById(3L);
         verify(productRepository, never()).deleteById(3L);
+    }
+
+    @Test
+    void testSaveProduct_AllowsNullOptionalTextFields() {
+        // Arrange
+        Product product = new Product(3L, null, null, BigDecimal.valueOf(9.99), 3, true);
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Product savedProduct = productService.saveProduct(product);
+
+        // Assert
+        assertNotNull(savedProduct);
+        assertNull(savedProduct.getName());
+        assertNull(savedProduct.getDescription());
+        assertEquals(BigDecimal.valueOf(9.99), savedProduct.getPrice());
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    void testSaveProduct_DoesNotDoubleEscapeHtml() {
+        // Arrange
+        Product product = new Product(
+                4L,
+                "Fish &amp; Chips <b>Meal</b>",
+                "Already escaped &lt;tag&gt; & special",
+                BigDecimal.valueOf(14.99),
+                8,
+                true);
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Product savedProduct = productService.saveProduct(product);
+
+        // Assert
+        assertNotNull(savedProduct);
+        assertEquals("Fish &amp; Chips &lt;b&gt;Meal&lt;/b&gt;", savedProduct.getName());
+        assertEquals("Already escaped &lt;tag&gt; &amp; special", savedProduct.getDescription());
+        verify(productRepository, times(1)).save(any(Product.class));
     }
 
     @Test
