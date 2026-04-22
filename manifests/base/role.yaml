@@ -9,9 +9,16 @@ rules:
   - services
   - pods
   - configmaps
-  - secrets
   - endpoints
   verbs:
   - get
   - list
   - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  resourceNames:
+  - db-credentials
+  verbs:
+  - get

@@ -145,6 +145,29 @@ kubectl create secret generic db-credentials \
   -n spring-hello
 ```
 
+### Secret RBAC Scope
+- ServiceAccount `hello` is limited to read only one secret: `db-credentials`
+- Secret permissions are restricted to `get` only (no `list` or `watch`)
+- Access to any other secret name in the namespace is denied by RBAC
+
+**Verify RBAC**:
+```bash
+# Expected: yes
+kubectl auth can-i get secret db-credentials \
+  --as=system:serviceaccount:spring-hello:hello \
+  -n spring-hello
+
+# Expected: no
+kubectl auth can-i get secret some-other-secret \
+  --as=system:serviceaccount:spring-hello:hello \
+  -n spring-hello
+
+# Expected: no
+kubectl auth can-i list secrets \
+  --as=system:serviceaccount:spring-hello:hello \
+  -n spring-hello
+```
+
 ## Health Checks
 
 ### Liveness Probe

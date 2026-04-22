@@ -24,13 +24,12 @@ spec:
         imagePullPolicy: Never
         securityContext:
           readOnlyRootFilesystem: true
-        ports:
-        - name: http
-          containerPort: 8081
-        securityContext:
           capabilities:
             drop:
             - NET_RAW
+        ports:
+        - name: http
+          containerPort: 8081
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
