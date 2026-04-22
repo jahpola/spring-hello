@@ -20,6 +20,8 @@ spec:
       - name: hello
         image: public.ecr.aws/kerminator/spring-hello:latest
         imagePullPolicy: Never
+        securityContext:
+          readOnlyRootFilesystem: true
         ports:
         - name: http
           containerPort: 8081
