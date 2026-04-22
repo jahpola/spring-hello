@@ -8,7 +8,7 @@ http://localhost:8081/api
 ## Endpoints
 
 ### Create Product
-**POST** `/products`
+**POST** `/api/products`
 
 Creates a new product.
 
@@ -75,7 +75,7 @@ Retrieves a single product by ID.
 ---
 
 ### Get All Products
-**GET** `/products?page=0&size=20&sort=name,asc`
+**GET** `/api/products?page=0&size=20&sort=name,asc`
 
 Retrieves paginated list of products.
 

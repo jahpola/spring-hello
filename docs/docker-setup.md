@@ -11,7 +11,7 @@ Complete environment with both database and application:
 ```bash
 docker-compose up -d
 ```
-- **Database**: PostgreSQL 17 with persistent storage
+- **Database**: PostgreSQL 18 with persistent storage
 - **Application**: Spring Boot app with health checks
 - **Network**: Isolated bridge network
 - **Volumes**: Persistent PostgreSQL data
@@ -25,8 +25,8 @@ docker-compose -f compose.dev.yaml up -d
 
 ### 📄 `Dockerfile`
 Optimized multistage Spring Boot container:
-- **Stage 1 (Builder)**: Eclipse Temurin JDK 21 Alpine for building
-- **Stage 2 (Runtime)**: Eclipse Temurin JRE 21 Alpine for running
+- **Stage 1 (Builder)**: Eclipse Temurin JDK 25 Alpine for building
+- **Stage 2 (Runtime)**: Eclipse Temurin JRE 25 Alpine for running
 - **Layer optimization**: Uses Spring Boot's layered JAR extraction
 - **Security**: Runs as non-root user
 - **Performance**: Container-aware JVM settings
@@ -80,7 +80,7 @@ docker-compose -f compose.dev.yaml down
 ## Services
 
 ### 🐘 PostgreSQL Database
-- **Image**: `postgres:17-alpine`
+- **Image**: `postgres:18-alpine`
 - **Port**: `5432`
 - **Database**: `product`
 - **Username**: `sa`
@@ -106,20 +106,20 @@ docker-compose -f compose.dev.yaml down
 
 The Dockerfile uses a sophisticated multistage build approach that provides significant benefits:
 
-#### Stage 1: Builder (eclipse-temurin:21-jdk-alpine)
+#### Stage 1: Builder (eclipse-temurin:25-jdk-alpine)
 - **Purpose**: Compile and build the application
 - **Size**: ~350MB (includes full JDK and build tools)
 - **Contents**: 
-  - Full JDK 21 for compilation
+  - Full JDK 25 for compilation
   - Gradle wrapper and dependencies
   - Source code compilation
   - Spring Boot layered JAR extraction
 
-#### Stage 2: Runtime (eclipse-temurin:21-jre-alpine)
+#### Stage 2: Runtime (eclipse-temurin:25-jre-alpine)
 - **Purpose**: Run the optimized application
 - **Size**: ~180MB (JRE only, no build tools)
 - **Contents**:
-  - JRE 21 (smaller than JDK)
+  - JRE 25 (smaller than JDK)
   - Extracted application layers
   - Non-root user for security
   - Health check utilities
