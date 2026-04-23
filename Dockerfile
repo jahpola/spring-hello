@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy the Gradle wrapper and build files first (for better layer caching)
 COPY gradlew .
 COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
+COPY build.gradle.kts .
+COPY settings.gradle.kts .
 COPY gradle.properties .
 
 # Make gradlew executable
