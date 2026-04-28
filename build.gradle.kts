@@ -3,7 +3,7 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
-    id("org.springframework.boot") version "4.0.5"
+    id("org.springframework.boot") version "4.0.6"
     id("io.spring.dependency-management") version "1.1.7"
     // id("com.google.cloud.tools.jib") version "3.4.1"
     id("org.sonarqube") version "7.2.3.7755"
