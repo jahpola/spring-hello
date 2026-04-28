@@ -23,6 +23,7 @@ spec:
         image: public.ecr.aws/kerminator/spring-hello:latest
         imagePullPolicy: Never
         securityContext:
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities:
             drop:
