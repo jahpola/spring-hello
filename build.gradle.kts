@@ -7,7 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     // id("com.google.cloud.tools.jib") version "3.4.1"
     id("org.sonarqube") version "7.3.0.8198"
-    id("org.flywaydb.flyway") version "12.5.0"
+    id("org.flywaydb.flyway") version "12.6.0"
     jacoco
     java
 }
@@ -44,7 +44,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     // environment.put("BP_SPRING_AOT_ENABLED", "true")
 }
 
-extra["springCloudVersion"] = "2025.1.0"
+extra["springCloudVersion"] = "2025.1.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
