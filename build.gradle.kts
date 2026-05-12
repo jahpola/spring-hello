@@ -28,7 +28,7 @@ repositories {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "jahpola_spring-hello")
+        property("sonar.projectKey", "spring-hello")
         property("sonar.organization", "jahpola")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.tests", "src/test/java")
