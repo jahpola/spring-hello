@@ -2,12 +2,23 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
+
+ext {
+    set("springBootVersion", "4.0.6")
+    set("dependencyManagementVersion", "1.1.7")
+    set("sonarqubeVersion", "7.3.0.8198")
+    set("flywayVersion", "12.6.1")
+    set("springCloudVersion", "2025.1.1")
+    set("springdocOpenapiVersion", "3.0.3")
+    set("caffeineVersion", "3.2.4")
+}
+
 plugins {
-    id("org.springframework.boot") version "4.0.6"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") version extra["springBootVersion"] as String
+    id("io.spring.dependency-management") version extra["dependencyManagementVersion"] as String
     // id("com.google.cloud.tools.jib") version "3.4.1"
-    id("org.sonarqube") version "7.3.0.8198"
-    id("org.flywaydb.flyway") version "12.6.1"
+    id("org.sonarqube") version extra["sonarqubeVersion"] as String
+    id("org.flywaydb.flyway") version extra["flywayVersion"] as String
     jacoco
     java
 }
@@ -44,18 +55,19 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     // environment.put("BP_SPRING_AOT_ENABLED", "true")
 }
 
-extra["springCloudVersion"] = "2025.1.1"
+
+// springCloudVersion is now set in ext above
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot:4.0.6")
+    implementation("org.springframework.boot:spring-boot:${extra["springBootVersion"]}")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${extra["springdocOpenapiVersion"]}")
     implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.4")
+    implementation("com.github.ben-manes.caffeine:caffeine:${extra["caffeineVersion"]}")
     // implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
     // implementation("io.micrometer:micrometer-tracing-bridge-otel")
     // implementation("io.opentelemetry:opentelemetry-exporter-otlp")
@@ -76,7 +88,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${extra["springCloudVersion"]}")
     }
 }
 
