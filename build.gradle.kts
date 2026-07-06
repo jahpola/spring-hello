@@ -88,6 +88,6 @@ tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
     reports {
         xml.required.set(true)
-        csv.required.set(true)
     }
 }
+
