@@ -10,7 +10,7 @@
 
 - Java 25
 - Gradle 9.6.0
-- Spring boot 4.1.x
+- Spring Boot 4.1.x
 - PostgreSQL 18.x database
-- Testing program, passwords are not relevant
-- 
+
+Note: This is a testing program; passwords are not relevant.
