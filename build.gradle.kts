@@ -6,7 +6,7 @@ plugins {
     id("org.springframework.boot") version "4.0.6"
     id("io.spring.dependency-management") version "1.1.7"
     // id("com.google.cloud.tools.jib") version "3.4.1"
-    id("org.sonarqube") version "7.3.0.8198"
+    id("org.sonarqube") version "7.3.1.8318"
     id("org.flywaydb.flyway") version "12.6.1"
     jacoco
     java
