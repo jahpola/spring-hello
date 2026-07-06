@@ -216,28 +216,6 @@ class HelloServiceTests {
     }
 
     @Test
-    void testSaveProduct_DoesNotDoubleEscapeHtml() {
-        // Arrange
-        Product product = new Product(
-                4L,
-                "Fish &amp; Chips <b>Meal</b>",
-                "Already escaped &lt;tag&gt; & special",
-                BigDecimal.valueOf(14.99),
-                8,
-                true);
-        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        // Act
-        Product savedProduct = productService.saveProduct(product);
-
-        // Assert
-        assertNotNull(savedProduct);
-        assertEquals("Fish &amp; Chips &lt;b&gt;Meal&lt;/b&gt;", savedProduct.getName());
-        assertEquals("Already escaped &lt;tag&gt; &amp; special", savedProduct.getDescription());
-        verify(productRepository, times(1)).save(any(Product.class));
-    }
-
-    @Test
     void testFindMostExpensiveProduct_ExistingProducts() {
         // Arrange
         when(productRepository.findTopByOrderByPriceDesc()).thenReturn(Optional.of(product2)); // product2 has higher

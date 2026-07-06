@@ -44,7 +44,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     // environment.put("BP_SPRING_AOT_ENABLED", "true")
 }
 
-extra["springCloudVersion"] = "2025.1.1"
+extra["springCloudVersion"] = "2025.1.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot:4.1.0")
