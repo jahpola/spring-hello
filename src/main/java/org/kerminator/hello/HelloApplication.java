@@ -9,7 +9,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerial
 @EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
 public class HelloApplication {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(HelloApplication.class, args);
     }
 

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler {
 
     private String getSanitizedPath(WebRequest request) {
                 String description = request.getDescription(false);
-                String path = description != null && description.startsWith(URI_PREFIX)
+                String path = description.startsWith(URI_PREFIX)
                                 ? description.substring(URI_PREFIX.length())
                                 : description;
         return HtmlUtils.htmlEscape(path);
@@ -96,7 +95,7 @@ public class GlobalExceptionHandler {
                             ? DEFAULT_GLOBAL_VALIDATION_MESSAGE
                             : message;
                 })
-                .collect(Collectors.toList());
+                .toList();
         errorResponse.setGlobalErrors(globalErrors);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

@@ -3,6 +3,7 @@ package org.kerminator.hello.exception;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class ValidationErrorResponse {
     private List<String> globalErrors;
 
     public ValidationErrorResponse() {
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now(ZoneId.of("UTC"));
     }
 
     public ValidationErrorResponse(int status, String error, String message, String path) {
