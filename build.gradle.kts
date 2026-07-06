@@ -3,7 +3,7 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
-    id("org.springframework.boot") version "4.0.6"
+    id("org.springframework.boot") version "4.1.0"
     id("io.spring.dependency-management") version "1.1.7"
     // id("com.google.cloud.tools.jib") version "3.4.1"
     id("org.sonarqube") version "7.3.1.8318"
@@ -47,7 +47,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 extra["springCloudVersion"] = "2025.1.1"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot:4.0.6")
+    implementation("org.springframework.boot:spring-boot:4.1.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
