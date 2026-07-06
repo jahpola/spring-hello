@@ -32,6 +32,7 @@ sonarqube {
         property("sonar.organization", "jahpola")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.tests", "src/test/java")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
