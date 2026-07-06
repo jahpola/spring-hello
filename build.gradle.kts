@@ -3,11 +3,11 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
-    id("org.springframework.boot") version "4.1.0"
-    id("io.spring.dependency-management") version "1.1.7"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
     // id("com.google.cloud.tools.jib") version "3.4.1"
-    id("org.sonarqube") version "7.3.1.8318"
-    id("org.flywaydb.flyway") version "12.10.0"
+    alias(libs.plugins.sonarqube)
+    alias(libs.plugins.flyway)
     jacoco
     java
 }
@@ -44,45 +44,43 @@ tasks.named<BootBuildImage>("bootBuildImage") {
     // environment.put("BP_SPRING_AOT_ENABLED", "true")
 }
 
-extra["springCloudVersion"] = "2025.1.2"
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot:4.1.0")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
-    implementation("org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.4")
+    implementation(libs.spring.boot)
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.springdoc.openapi.starter.webmvc.ui)
+    implementation(libs.spring.cloud.starter.kubernetes.fabric8.all)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.cache)
+    implementation(libs.caffeine)
     // implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
     // implementation("io.micrometer:micrometer-tracing-bridge-otel")
     // implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("org.springframework.boot:spring-boot-starter-flyway")
-    implementation("org.flywaydb:flyway-database-postgresql")
+    implementation(libs.spring.boot.starter.flyway)
+    implementation(libs.flyway.database.postgresql)
     // runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-    runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
-    testImplementation("org.testcontainers:testcontainers-postgresql")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    runtimeOnly(libs.postgresql)
+    testImplementation(libs.spring.boot.starter.actuator.test)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
+    testImplementation(libs.spring.boot.starter.webmvc.test)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
-    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    developmentOnly(libs.spring.boot.docker.compose)
 }
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom(libs.spring.cloud.dependencies.get().toString())
     }
 }
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
-    // maxParallelForks = 4
+    maxParallelForks = 4
 }
 
 tasks.named<JacocoReport>("jacocoTestReport") {
