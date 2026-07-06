@@ -24,6 +24,8 @@ public class Product {
      * Name of the product.
      * Cannot be null.
      */
+    @NotBlank(message = "Product name is required")
+    @Size(min = 2, max = 100, message = "Product name must be between 2 and 100 characters")
     @Column(nullable = false)
     private String name;
 
@@ -31,6 +33,7 @@ public class Product {
      * Description of the product.
      * Limited to 1000 characters.
      */
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     @Column(length = 1000)
     private String description;
 
@@ -39,6 +42,8 @@ public class Product {
      * Cannot be null.
      * Stored with precision of 10 digits and 2 decimal places.
      */
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.01", message = "Price must be at least 0.01")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
