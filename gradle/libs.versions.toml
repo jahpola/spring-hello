@@ -2,7 +2,7 @@
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
 sonarqube = "7.3.1.8318"
-flyway = "12.10.0"
+flyway = "13.0.0"
 springCloud = "2025.1.2"
 springdocOpenapi = "3.0.3"
 caffeine = "3.2.4"
