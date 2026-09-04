@@ -1,6 +1,7 @@
 package org.kerminator.hello;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.controllers.ProductController;
+import org.kerminator.hello.dto.ProductRequest;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +52,13 @@ class HelloControllerTests {
 
     @Test
     void shouldCreateProduct() throws Exception {
+        ProductRequest request = new ProductRequest("nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
         given(productService.saveProduct(any(Product.class))).willReturn(product);
 
         mvc.perform(MockMvcRequestBuilders
                 .post("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(product)))
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(jsonPath("$.name").value("nakki"))
                 .andExpect(jsonPath("$.price").value(10.15))
                 .andExpect(status().isCreated());
@@ -65,12 +68,13 @@ class HelloControllerTests {
     void shouldUpdateProduct() throws Exception {
         product.setDescription("Ei ole kukkateline");
         product.setPrice(BigDecimal.valueOf(99.99));
-        given(productService.updateProduct(product.getId(), product)).willReturn(product);
+        ProductRequest request = new ProductRequest("nakki", "Ei ole kukkateline", BigDecimal.valueOf(99.99), 12, false);
+        given(productService.updateProduct(eq(product.getId()), any(Product.class))).willReturn(product);
 
         mvc.perform(MockMvcRequestBuilders
                 .put("/api/products/{id}", product.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(product)))
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
     }
 

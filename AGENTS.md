@@ -9,6 +9,8 @@
 ## Basics
 
 - Java 25
-- Gradle 9.4.0
-- Spring boot 4.0.x
+- Gradle 9.6.0
+- Spring Boot 4.1.x
 - PostgreSQL 18.x database
+
+Note: This is a testing program; passwords are not relevant.
