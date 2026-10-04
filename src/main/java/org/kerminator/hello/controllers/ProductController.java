@@ -3,6 +3,8 @@ package org.kerminator.hello.controllers;
 import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.kerminator.hello.dto.ProductRequest;
+import org.kerminator.hello.dto.ProductResponse;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -24,28 +26,28 @@ public class ProductController {
 
     @Observed(name = "create:Product")
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid Product product) {
-        Product savedProduct = productService.saveProduct(product);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid ProductRequest request) {
+        Product savedProduct = productService.saveProduct(request.toEntity());
+        return new ResponseEntity<>(ProductResponse.from(savedProduct), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
         Product product = productService.getProductByIdOrThrow(id);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ProductResponse.from(product));
     }
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
-        Page<Product> products = productService.getAllProducts(pageable);
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
+        Page<ProductResponse> products = productService.getAllProducts(pageable).map(ProductResponse::from);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @Observed(name = "update:Product")
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody @Valid Product productDetails) {
-        Product updatedProduct = productService.updateProduct(id, productDetails);
-        return ResponseEntity.ok(updatedProduct);
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductRequest request) {
+        Product updatedProduct = productService.updateProduct(id, request.toEntity());
+        return ResponseEntity.ok(ProductResponse.from(updatedProduct));
     }
 
     @Observed(name = "delete:Product")
