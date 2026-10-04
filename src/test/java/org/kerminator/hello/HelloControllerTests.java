@@ -3,6 +3,8 @@ package org.kerminator.hello;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -46,8 +48,6 @@ class HelloControllerTests {
     @BeforeEach
     void setup() {
         product = new Product(100L, "nakki", "nakki teline", BigDecimal.valueOf(10.15), 12, false);
-
-        productService.saveProduct(product);
     }
 
     @Test
@@ -62,6 +62,19 @@ class HelloControllerTests {
                 .andExpect(jsonPath("$.name").value("nakki"))
                 .andExpect(jsonPath("$.price").value(10.15))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void shouldRejectNegativeStockQuantity() throws Exception {
+        ProductRequest request = new ProductRequest("nakki", "nakki teline", BigDecimal.valueOf(10.15), -1, false);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        verify(productService, never()).saveProduct(any(Product.class));
     }
 
     @Test
@@ -96,6 +109,7 @@ class HelloControllerTests {
         mvc.perform(get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("nakki"))
+                .andExpect(jsonPath("$.content[0].inStock").value(true))
                 // Note the nested 'page' object in standard Spring Data response
                 .andExpect(jsonPath("$.page.totalElements").value(1))
                 .andExpect(jsonPath("$.page.number").value(0))

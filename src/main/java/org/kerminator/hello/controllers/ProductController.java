@@ -7,6 +7,7 @@ import org.kerminator.hello.dto.ProductRequest;
 import org.kerminator.hello.dto.ProductResponse;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.service.ProductService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -38,7 +39,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(
+            @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
         Page<ProductResponse> products = productService.getAllProducts(pageable).map(ProductResponse::from);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

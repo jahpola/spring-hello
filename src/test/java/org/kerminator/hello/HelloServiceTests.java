@@ -17,6 +17,7 @@ import org.kerminator.hello.exception.ProductNotFoundException;
 import org.kerminator.hello.model.Product;
 import org.kerminator.hello.repository.ProductRepository;
 import org.kerminator.hello.service.ProductService;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -56,6 +57,16 @@ class HelloServiceTests {
         assertEquals(product1.getName(), savedProduct.getName());
         assertEquals(product1.getPrice(), savedProduct.getPrice());
         verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    void saveProductDerivesOutOfStockFromZeroQuantity() {
+        Product product = new Product(null, "Test Product", "Description", BigDecimal.TEN, 0, true);
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Product savedProduct = productService.saveProduct(product);
+
+        assertFalse(savedProduct.getInStock());
     }
 
     @Test
@@ -151,6 +162,19 @@ class HelloServiceTests {
         assertEquals(updatedProduct.getInStock(), result.getInStock());
         verify(productRepository, times(1)).findById(1L);
         verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    void updateProductDerivesInStockFromPositiveQuantity() {
+        Product updatedProduct = new Product(null, "Updated Product", "Updated Description", BigDecimal.TEN, 15, false);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        productService.updateProduct(1L, updatedProduct);
+
+        ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(productCaptor.capture());
+        assertTrue(productCaptor.getValue().getInStock());
     }
 
     @Test

@@ -140,7 +140,7 @@ class ProductServiceIntegrationTests {
         assertEquals("Updated Description", updatedProduct.getDescription());
         assertEquals(0, BigDecimal.valueOf(49.99).compareTo(updatedProduct.getPrice()));
         assertEquals(20, updatedProduct.getStockQuantity());
-        assertFalse(updatedProduct.getInStock());
+        assertTrue(updatedProduct.getInStock());
 
         // Verify changes in database
         Optional<Product> foundProduct = productRepository.findById(product1.getId());
@@ -194,6 +194,7 @@ class ProductServiceIntegrationTests {
     void testFindProductsByStockAvailability() {
         // Arrange - product1 is in stock, product2 is out of stock
         product1.setInStock(true);
+        product2.setStockQuantity(0);
         product2.setInStock(false);
         productRepository.save(product1);
         productRepository.save(product2);

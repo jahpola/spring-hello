@@ -1,8 +1,10 @@
 package org.kerminator.hello.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.kerminator.hello.model.Product;
 
@@ -20,7 +22,10 @@ public record ProductRequest(
         @DecimalMin(value = "0.01", message = "Price must be at least 0.01")
         BigDecimal price,
 
+        @PositiveOrZero(message = "Stock quantity cannot be negative")
         Integer stockQuantity,
+        @Schema(accessMode = Schema.AccessMode.READ_ONLY,
+                description = "Derived from stockQuantity; true only when stockQuantity is greater than zero")
         Boolean inStock
 ) {
     public Product toEntity() {

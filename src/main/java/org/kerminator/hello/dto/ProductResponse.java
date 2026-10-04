@@ -19,7 +19,7 @@ public record ProductResponse(
                 product.getDescription(),
                 product.getPrice(),
                 product.getStockQuantity(),
-                product.getInStock()
+                product.getStockQuantity() != null && product.getStockQuantity() > 0
         );
     }
 }

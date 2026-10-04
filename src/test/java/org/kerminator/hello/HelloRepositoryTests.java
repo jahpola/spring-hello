@@ -37,11 +37,12 @@ class HelloRepositoryTests {
         product.setName("Makkara");
         product.setDescription("Makkara teline");
         product.setPrice(BigDecimal.valueOf(99.88));
+        product.setStockQuantity(0);
+        product.setInStock(false);
 
         productRepository.save(product);
-        
     }
- 
+
     @AfterEach
     void tearDown() {
         productRepository.deleteAll();

@@ -20,6 +20,7 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
+        synchronizeStockStatus(product);
         return productRepository.save(product);
     }
 
@@ -45,7 +46,7 @@ public class ProductService {
         existingProduct.setDescription(productDetails.getDescription());
         existingProduct.setPrice(productDetails.getPrice());
         existingProduct.setStockQuantity(productDetails.getStockQuantity());
-        existingProduct.setInStock(productDetails.getInStock());
+        synchronizeStockStatus(existingProduct);
         return productRepository.save(existingProduct);
     }
 
@@ -63,6 +64,11 @@ public class ProductService {
 
     public List<Product> findProductsByStockAvailability(Boolean inStock) {
         return productRepository.findByInStock(inStock);
+    }
+
+    private void synchronizeStockStatus(Product product) {
+        Integer stockQuantity = product.getStockQuantity();
+        product.setInStock(stockQuantity != null && stockQuantity > 0);
     }
 
 }
