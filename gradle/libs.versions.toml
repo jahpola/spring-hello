@@ -1,10 +1,10 @@
 [versions]
-springBoot = "4.1.2"
+springBoot = "4.2.0"
 springDependencyManagement = "1.1.7"
 sonarqube = "7.6.0.18749"
-flyway = "13.12.2"
-springCloud = "2025.1.4"
-springdocOpenapi = "3.2.0"
+flyway = "13.13.0"
+springCloud = "2026.0.0"
+springdocOpenapi = "3.2.1"
 caffeine = "3.3.1"
 
 [libraries]
